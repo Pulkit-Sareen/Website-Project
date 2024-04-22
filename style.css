@@ -4,7 +4,7 @@
     background-color: transparent;
     overflow: hidden;
     list-style: none;
-
+    scroll-behavior: smooth;
 }
 .header-img img {
     height: 100vh;
