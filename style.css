@@ -5,6 +5,7 @@
     list-style: none;
     scroll-behavior: smooth;
 }
+
 /* Code for background image and text */
 .header-text img{
     width: 100%;
@@ -15,10 +16,12 @@
     top: 30%;
     left: 10%;
     width: 40%;
+    color: white;
 }
 .header-text p{
     position: absolute;
     top: 40%;
+    color: white;
     left: 10%;
     width: 40%;
 }
@@ -32,15 +35,14 @@
     filter: invert(1);
     justify-content: center;
 }
+.header-text a svg{
+    transition: .5s;
+}
 .header-text a svg:hover{
-    width: 50px;
-    height: 50px;
-    transition: 0.5s;
-    filter: invert(1);
+    transform: scale(1.2);
 }
 /* code about nav bar */
 nav ul{
-    position: absolute;
     width: 100%;
     display: flex;
     align-content:center;
@@ -57,6 +59,10 @@ nav a{
     text-decoration: none;
     display: flex;
     align-items: center;
+    color: black;
+    transition: ease-out;
+    transition-duration: 0.5s;
+    box-shadow: inset 0 0 0 0 gray;
 }
 #nav-icons a{
     width: 30px !important;
@@ -66,13 +72,14 @@ nav a{
     height: 30px;
 }
 nav a:hover{
-    background-color: gray;
+    box-shadow: inset 0 -100px 0 0 gray;
     color: white;
-    transition: 1s;
 }
 .brand-img{
     margin-right: auto;
 }
+
+
 /* code for side bar */
 .sidebar{
     display: none;
@@ -106,13 +113,71 @@ nav a:hover{
     }
 }
 
+/* drop down menu in navbar */
+.hideOnMobile{
+    overflow: hidden;
+}
+
+.hideOnMobile .dropbtn{
+    border: none;
+    outline: none;
+    padding: 14px 20px;
+}
+.dropdown-content{
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 999;
+    color: black;
+    background-color: white;
+}
+.dropdown-content a{
+    float: none;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    color: black;
+}
+.dropdown-content a:hover{
+    background-color: gray;
+    color: white;
+}
+.hideOnMobile:hover .dropdown-content{
+    display: block;
+}
+
+/* code about cards */
 .cards{
     display: flex;
     width: 100%;
+    background-color: white;
 }
 .box{
-    width: 25%;
+    width: 35%;
     height: 250px;
     margin: auto;
     margin-top: 3%;
+    background-color: #cac5c5;
+}
+.slide-box{
+    /* display: none; */
+}
+.slide-box {
+    position: relative;
+    display: flex;
+    height: 50%;
+    width: 100%;
+    align-items: center;
+}
+.slide-box .map{
+    position: absolute;
+    right: 0;
+    bottom: 10%;
+}
+.slide-box .info{
+    position: absolute;
+    left: 0;
+    top: 10%;
 }
