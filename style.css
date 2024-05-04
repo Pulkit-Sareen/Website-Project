@@ -4,8 +4,12 @@
     overflow-x: hidden;
     list-style: none;
     scroll-behavior: smooth;
+    text-decoration: none;
 }
 
+section{
+    margin: 20px 0 20px 0;
+}
 /* Code for background image and text */
 .header-text img{
     width: 100%;
@@ -180,4 +184,53 @@ nav a:hover{
     position: absolute;
     left: 0;
     top: 10%;
+}
+
+/* about us collage page css */
+.as-image img{
+    width: 100%;
+    position: absolute;
+    height: 115vh;
+
+}
+hr{
+    width: 20%;
+    margin: auto;
+    border: 1px solid #fdc82f;
+    margin-bottom: 7%;
+}
+.as-center{
+    margin: auto;
+    margin-top: 10%;
+    width: 50%;
+    height: 75%;
+    position: relative;
+    background-color: white;
+}
+.as-content{
+    background-color: white;
+    text-align: center;
+    margin: auto;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    padding: 20px;
+}
+
+.as-content p{
+    padding: 20px;
+}
+.as-content a{
+    display: block;
+    margin: auto;
+    font-size: 14px;
+    background-color: #fdc82f;
+    width: 35%;
+    border-radius: 20px;
+    padding: 14px 7px 14px 7px;
+    color: black;
+    font-weight: 600;
+    transition: 0.5s;
+}
+.as-content a:hover{
+    box-shadow: 0px 0px 22px 2px #fdc82f;
 }
