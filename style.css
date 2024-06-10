@@ -153,38 +153,7 @@ nav a:hover{
 }
 
 /* code about cards */
-.cards{
-    display: flex;
-    width: 100%;
-    background-color: white;
-}
-.box{
-    width: 35%;
-    height: 250px;
-    margin: auto;
-    margin-top: 3%;
-    background-color: #cac5c5;
-}
-.slide-box{
-    /* display: none; */
-}
-.slide-box {
-    position: relative;
-    display: flex;
-    height: 50%;
-    width: 100%;
-    align-items: center;
-}
-.slide-box .map{
-    position: absolute;
-    right: 0;
-    bottom: 10%;
-}
-.slide-box .info{
-    position: absolute;
-    left: 0;
-    top: 10%;
-}
+
 
 /* about us collage page css */
 .as-image img{
