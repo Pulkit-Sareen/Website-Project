@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/kMVq4U1G7qZ6ZQNj5B3iHv4ZxOxSyX1by9Ix0nZLjbU+Zw/muRF5GP7npMy7fZDXlc2GpEOE/EqFg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .display .container {
+            display: block;
+        }
+
+        .hamburger-menu {
+            width: 3rem;
+            height: 3rem;
+            position: fixed;
+            top: 1rem;
+            right: 3rem;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            cursor: pointer;
+            transition: right 0.7s;
+        }
+
+        .change .hamburger-menu {
+            right: 21rem;
+        }
+
+        .line {
+            width: 100%;
+            height: 0.2rem;
+            background-color: #fff;
+            box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.2);
+        }
+
+        .change .line {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .change .line-1 {
+            transform: rotate(45deg) translate(0.3rem, 0.8rem);
+        }
+
+        .change .line-2 {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .change .line-3 {
+            transform: rotate(-45deg) translate(0.3rem, -0.8rem);
+        }
+
+        .hamburger-menu span {
+            position: absolute;
+            left: 5rem;
+            width: 10rem;
+            height: 4rem;
+            background-color: #e2b646;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-family: "Baloo Da 2", serif;
+            font-size: 1.6rem;
+            letter-spacing: 0.1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
+
+        .change .hamburger-menu:hover span {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hamburger-menu span::before {
+            content: "";
+            position: absolute;
+            border-left: 1rem solid transparent;
+            border-right: 1rem solid #e2b646;
+            border-bottom: 1rem solid transparent;
+            border-top: 1rem solid transparent;
+            top: 50%;
+            left: -2rem;
+            transform: translateY(-50%);
+        }
+
+        .header {
+            width: 100%;
+            height: 60vh;
+            position: relative;
+            perspective: 100rem;
+            overflow: hidden;
+        }
+
+        .img-wrapper {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 60vh;
+            object-fit: cover;
+            opacity: 0.5;
+            animation: scale 25s;
+        }
+
+        @keyframes scale {
+            0% {
+                transform: scale(1.3);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .banner {
+            position: absolute;
+            top: 18%;
+            left: 10%;
+        }
+
+        .banner h1 {
+            font-family: "Baloo Da 2", serif;
+            font-size: 3rem;
+            font-weight: 300;
+            color: #fff;
+            width: 50%;
+            line-height: 6rem;
+            letter-spacing: 0.2rem;
+            text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            animation: moveBanner 1s 0.5s forwards;
+        }
+
+        .banner p {
+            font-family: "Josefin Slab", serif;
+            font-size: 2rem;
+            color: #fff;
+            width: 70%;
+            letter-spacing: 0.1rem;
+            margin-bottom: 3rem;
+            text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            animation: moveBanner 1s 0.7s forwards;
+        }
+
+        @keyframes moveBanner {
+            0% {
+                transform: translateY(40rem) rotateY(-20deg);
+            }
+
+            100% {
+                transform: translateY(0) rotateY(0);
+                opacity: 1;
+            }
+        }
+
+        .sidebar {
+            padding: 14px;
+            width: 25rem;
+            height: 60vh;
+            position: fixed;
+            top: 0;
+            right: -40rem;
+            background-color: #fff;
+            transition: right 0.5s;
+            z-index: 100;
+        }
+
+        .change .sidebar {
+            right: 0;
+        }
+
+        .menu {
+            position: absolute;
+            top: 12%;
+            left: 17%;
+        }
+        
+        .menu-item {
+            list-style-type: disc;
+            margin-top: 17px;
+        }
+
+        .menu-link {
+            font-family: "Baloo Da 2", serif;
+            font-size: 32px;
+            color: #555;
+            position: relative;
+        }
+
+        .menu-link::before {
+            content: attr(data-content);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #c29525;
+            width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .menu-link:hover::before {
+            width: 100%;
+        }
+        .sub-menu{
+            display: none;
+            font-family: "Baloo Da 2",serif;
+            font-size: 24px;
+            margin-left: 10px;
+            text-decoration: underline;
+        }
+        #sub:hover .sub-menu{
+            display: block;
+        }
+        .sub-menu-item{
+            list-style-type:disc;
+            margin: 7px;
+        }
+        .sub-menu-link{
+            color: #555;
+            position: relative;
+            display: block;
+            text-decoration: none;
+        }
+        .sub-menu-link::before {
+            content: attr(data-content);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #c29525;
+            width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .sub-menu-link:hover::before {
+            width: 100%;
+        }
+        /* .social-media {
+            position: absolute;
+            bottom: 3rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .social-media i {
+            font-size: 2.2rem;
+            margin: 3rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #777;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .social-media i:hover {
+            background-color: #c29525;
+        } */
+
+        .content {
+            padding: 24px;
+            display: flex;
+        }
+        @media (max-width:890px){
+            .content{
+                display: block;
+            }
+            .content-text{
+                width: 100% !important;
+            }
+            .content-api{
+                width: 50% !important;
+                margin: auto;
+            }
+        }
+        .content-text {
+            width: 70%;
+            opacity: 0;
+            transform: translateX(-100%);
+            animation: slideInFromLeft 2s forwards;
+            font-family: inria serif;
+        }
+
+        @keyframes slideInFromLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .content-text h1 {
+            margin: 10px;
+        }
+
+        .content-text p {
+            margin: 0 10px 20px 10px;
+        }
+        .content-api h1{
+            font-weight: bold;
+            font-size: 30px;
+            font-family: inria serif;
+        }
+        .content-api {
+            padding: 7px;
+            width: 30%;
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 250px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+            opacity: 0;
+            transform: translateX(100%);
+            animation: slideInFromLeft 2s forwards;
+        }
+
+        @keyframes slideInFromLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .aqi-value {
+            font-size: 20px;
+            margin: 7px 0;
+        }
+
+        .aqi-description {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .input-group {
+            width: 100%;
+        }
+
+        .input-group input {
+            margin-top: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 50%;
+        }
+
+        .input-group button {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .input-group button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 50px;
+            background-color: #000;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        footer .social-icons {
+            margin: 20px 0;
+        }
+
+        footer .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: 0 10px;
+            line-height: 40px;
+            border-radius: 50%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        footer .social-icons a:hover {
+            background-color: #555;
+        }
+
+        footer .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        footer .footer-links li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        footer .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer .footer-links a:hover {
+            color: #ccc;
+        }
+
+        footer .footer-bottom {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="hamburger-menu">
+            <div class="line line-1"></div>
+            <div class="line line-2"></div>
+            <div class="line line-3"></div>
+            <span>Close</span>
+        </div>
+        <header class="header">
+            <div class="img-wrapper">
+                <img src="Images/AQI.jpg" />
+            </div>
+            <div class="banner">
+                <h1>AQI</h1>
+                <p>"Discover real-time Air Quality Index (AQI) data for any location and stay informed about the air you breathe."</p>
+            </div>
+        </header>
+
+        <section class="sidebar">
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="index.html" class="menu-link" data-content="Home">Home</a>
+                </li>
+                <li class="menu-item" id="sub">
+                    <a href="#" class="menu-link" data-content="Resources">Resources</a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item">
+                            <a href="UV.html" class="sub-menu-link" data-content="UV Index">UV Index</a>
+                        </li>
+                        <li class="sub-menu-item">
+                            <a href="emission.html" class="sub-menu-link" data-content="Carbon Emissions">Carbon Emissions</a>
+                        </li>
+                        <li class="sub-menu-item">
+                            <a href="temperature.html" class="sub-menu-link" data-content="Temperature">Temperature</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-content="About Us">About Us</a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-content="Contact">Contact</a>
+                </li>
+            </ul>
+            <!-- <div class="social-media">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div> -->
+        
+        </section>
+
+        <section>
+            <div class="content">
+                <div class="content-text">
+                    <h1>What is AQI?</h1>
+                    <p>The Air Quality Index (AQI) is a numerical scale used to communicate how polluted the air
+                        currently
+                        is or how polluted it is forecast to become. It provides a simple way to understand the health
+                        risks
+                        associated with different levels of air pollution. The AQI focuses on health effects you may
+                        experience within a few hours or days after breathing polluted air.
+                    </p>
+
+                    <h1>How is AQI Measured?</h1>
+                    <p>The AQI is calculated for four major air pollutants regulated by the Clean Air Act:
+                        Ground-level Ozone (O3)
+                        Particulate Matter (PM2.5 and PM10)
+                        Carbon Monoxide (CO)
+                        Sulphur Dioxide (SO2)
+                        Each pollutant has its own standard, and the AQI scale for each pollutant ranges from 0 to 500.
+                        The
+                        highest of the AQI values for the individual pollutants becomes the AQI value for that day.
+                    </p>
+
+                    <h1>AQI Categories</h1>
+                    <p>The AQI scale is divided into six categories, each corresponding to a different level of health
+                        concern:
+                        0 to 50 (Good): Air quality is considered satisfactory, and air pollution poses little or no
+                        risk.
+                        51 to 100 (Moderate): Air quality is acceptable; however, some pollutants may be a moderate
+                        health
+                        concern for a very small number of people who are unusually sensitive to air pollution.
+                        101 to 150 (Unhealthy for Sensitive Groups): Members of sensitive groups may experience health
+                        effects. The general public is not likely to be affected.
+                        151 to 200 (Unhealthy): Everyone may begin to experience health effects; members of sensitive
+                        groups
+                        may experience more serious health effects.
+                        201 to 300 (Very Unhealthy): Health alert: everyone may experience more serious health effects.
+                        301 to 500 (Hazardous): Health warning of emergency conditions: the entire population is more
+                        likely
+                        to be affected.</p>
+                </div>
+                <div class="content-api">
+                    <h1>AQI Checker</h1>
+                    <div class="input-group">
+                        <input type="text" id="city-input" placeholder="Enter city name" />
+                        <button onclick="fetchAQI()">Get AQI</button>
+                    </div>
+                    <div class="aqi-value" id="aqi-value">Enter a city to get AQI</div>
+                    <div class="aqi-description" id="aqi-description"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <ul class="footer-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Contact Us</a></li>
+
+            </ul>
+
+            <div class="footer-bottom">
+                &copy; 2024 Your Company. All rights reserved.
+            </div>
+        </footer>
+
+        <script>
+            function showSidebar() {
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.style.display = 'flex';
+            }
+
+            function hideSidebar() {
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.style.display = 'none';
+            }
+
+            async function fetchAQI() {
+                const apiKey = "7a233ee7c80896b48b3acd149f94d2dd4e7a2a8f";
+                const city = document.getElementById("city-input").value.trim();
+
+                if (!city) {
+                    alert("Please enter a city name");
+                    return;
+                }
+
+                const url = `https://api.waqi.info/feed/${city}/?token=${apiKey}`;
+
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    if (data.status === "ok") {
+                        const aqi = data.data.aqi;
+                        document.getElementById("aqi-value").textContent = `AQI: ${aqi}`;
+                        document.getElementById("aqi-description").textContent = getAQIDescription(aqi);
+                    } else {
+                        alert("City not found or API error");
+                    }
+                } catch (error) {
+                    alert("Error fetching data");
+                }
+            }
+
+            function getAQIDescription(aqi) {
+                if (aqi <= 50) {
+                    return "Good";
+                } else if (aqi <= 100) {
+                    return "Moderate";
+                } else if (aqi <= 150) {
+                    return "Unhealthy for Sensitive Groups";
+                } else if (aqi <= 200) {
+                    return "Unhealthy";
+                } else if (aqi <= 300) {
+                    return "Very Unhealthy";
+                } else {
+                    return "Hazardous";
+                }
+            }
+            document.querySelector(".hamburger-menu").addEventListener("click", () => {
+                document.querySelector(".container").classList.toggle("change");
+            });
+        </script>
+</body>
+
+</html>
