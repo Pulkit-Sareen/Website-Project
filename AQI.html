@@ -141,8 +141,10 @@
 
         .banner {
             position: absolute;
-            top: 18%;
-            left: 10%;
+            top: 10%;
+            left: 25%;
+            width: 50%;
+            text-align: center;
         }
 
         .banner h1 {
@@ -150,7 +152,7 @@
             font-size: 3rem;
             font-weight: 300;
             color: #fff;
-            width: 50%;
+            width: 100%;
             line-height: 6rem;
             letter-spacing: 0.2rem;
             text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.4);
@@ -162,7 +164,7 @@
             font-family: "Josefin Slab", serif;
             font-size: 2rem;
             color: #fff;
-            width: 70%;
+            width: 100%;
             letter-spacing: 0.1rem;
             margin-bottom: 3rem;
             text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.4);
@@ -202,7 +204,7 @@
             top: 12%;
             left: 17%;
         }
-        
+
         .menu-item {
             list-style-type: disc;
             margin-top: 17px;
@@ -231,27 +233,32 @@
         .menu-link:hover::before {
             width: 100%;
         }
-        .sub-menu{
+
+        .sub-menu {
             display: none;
-            font-family: "Baloo Da 2",serif;
+            font-family: "Baloo Da 2", serif;
             font-size: 24px;
             margin-left: 10px;
             text-decoration: none;
         }
-        #sub:hover .sub-menu{
+
+        #sub:hover .sub-menu {
             display: block;
         }
-        .sub-menu-item{
-            list-style-type:disc;
+
+        .sub-menu-item {
+            list-style-type: disc;
             margin: 7px;
-            
+
         }
-        .sub-menu-link{
+
+        .sub-menu-link {
             color: #555;
             position: relative;
             display: block;
             text-decoration: none;
         }
+
         .sub-menu-link::before {
             content: attr(data-content);
             position: absolute;
@@ -259,7 +266,7 @@
             left: 0;
             color: #c29525;
             width: 0;
-            
+
             overflow: hidden;
             white-space: nowrap;
             transition: width 0.3s ease-in-out;
@@ -268,6 +275,7 @@
         .sub-menu-link:hover::before {
             width: 100%;
         }
+
         /* .social-media {
             position: absolute;
             bottom: 3rem;
@@ -298,24 +306,29 @@
             padding: 24px;
             display: flex;
         }
-        @media (max-width:890px){
-            .content{
+
+        @media (max-width:890px) {
+            .content {
                 display: block;
             }
-            .content-text{
+
+            .content-text {
                 width: 100% !important;
             }
-            .content-api{
+
+            .content-api {
                 width: 50% !important;
                 margin: auto;
             }
         }
+
         .content-text {
             width: 70%;
             opacity: 0;
             transform: translateX(-100%);
             animation: slideInFromLeft 2s forwards;
             font-family: inria serif;
+            list-style: none;
         }
 
         @keyframes slideInFromLeft {
@@ -332,11 +345,15 @@
         .content-text p {
             margin: 0 10px 20px 10px;
         }
-        .content-api h1{
+        .content-text li{
+            margin:0 10px 20px 10px;
+        }
+        .content-api h1 {
             font-weight: bold;
             font-size: 30px;
             font-family: inria serif;
         }
+
         .content-api {
             padding: 7px;
             width: 30%;
@@ -399,6 +416,7 @@
         .input-group button:hover {
             background-color: #0056b3;
         }
+
         footer {
             margin-top: 50px;
             background-color: #000;
@@ -470,7 +488,8 @@
             </div>
             <div class="banner">
                 <h1>AQI</h1>
-                <p>"Discover real-time Air Quality Index (AQI) data for any location and stay informed about the air you breathe."</p>
+                <p>"Discover real-time Air Quality Index (AQI) data for any location and stay informed about the air you
+                    breathe."</p>
             </div>
         </header>
 
@@ -486,7 +505,8 @@
                             <a href="UV.html" class="sub-menu-link" data-content="UV Index">UV Index</a>
                         </li>
                         <li class="sub-menu-item">
-                            <a href="emission.html" class="sub-menu-link" data-content="Carbon Emissions">Carbon Emissions</a>
+                            <a href="emission.html" class="sub-menu-link" data-content="Carbon Emissions">Carbon
+                                Emissions</a>
                         </li>
                         <li class="sub-menu-item">
                             <a href="temperature.html" class="sub-menu-link" data-content="Temperature">Temperature</a>
@@ -505,7 +525,7 @@
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
             </div> -->
-        
+
         </section>
 
         <section>
@@ -534,20 +554,28 @@
                     <h1>AQI Categories</h1>
                     <p>The AQI scale is divided into six categories, each corresponding to a different level of health
                         concern:
-                        0 to 50 (Good): Air quality is considered satisfactory, and air pollution poses little or no
-                        risk.
-                        51 to 100 (Moderate): Air quality is acceptable; however, some pollutants may be a moderate
-                        health
-                        concern for a very small number of people who are unusually sensitive to air pollution.
-                        101 to 150 (Unhealthy for Sensitive Groups): Members of sensitive groups may experience health
-                        effects. The general public is not likely to be affected.
-                        151 to 200 (Unhealthy): Everyone may begin to experience health effects; members of sensitive
-                        groups
-                        may experience more serious health effects.
-                        201 to 300 (Very Unhealthy): Health alert: everyone may experience more serious health effects.
-                        301 to 500 (Hazardous): Health warning of emergency conditions: the entire population is more
-                        likely
-                        to be affected.</p>
+
+                        <li><b>0 to 50 (Good):</b> Air quality is considered satisfactory, and air pollution poses
+                            little or no
+                            risk.</li>
+                        <li><b>51 to 100 (Moderate):</b> Air quality is acceptable; however, some pollutants may be a
+                            moderate
+                            health concern for a very small number of people who are unusually sensitive to air
+                            pollution.</li>
+                        <li><b>101 to 150 (Unhealthy for Sensitive Groups):</b> Members of sensitive groups may
+                            experience health
+                            effects. The general public is not likely to be affected.</li>
+                        <li><b>151 to 200 (Unhealthy):</b> Everyone may begin to experience health effects; members of
+                            sensitive
+                            groups
+                            may experience more serious health effects.</li>
+                        <li><b>201 to 300 (Very Unhealthy):</b> Health alert: everyone may experience more serious
+                            health effects.</li>
+                        <li><b>301 to 500 (Hazardous):</b> Health warning of emergency conditions: the entire population
+                            is more
+                            likely
+                            to be affected.</li>
+                    </p>
                 </div>
                 <div class="content-api">
                     <h1>AQI Checker</h1>
