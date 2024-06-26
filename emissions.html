@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/kMVq4U1G7qZ6ZQNj5B3iHv4ZxOxSyX1by9Ix0nZLjbU+Zw/muRF5GP7npMy7fZDXlc2GpEOE/EqFg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Emission</title>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .display .container {
+        display: block;
+    }
+
+    .hamburger-menu {
+        width: 3rem;
+        height: 3rem;
+        position: fixed;
+        top: 1rem;
+        right: 3rem;
+        z-index: 200;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        cursor: pointer;
+        transition: right 0.7s;
+    }
+
+    .change .hamburger-menu {
+        right: 21rem;
+    }
+
+    .line {
+        width: 100%;
+        height: 0.2rem;
+        background-color: #fff;
+        box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.2);
+    }
+
+    .change .line {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .change .line-1 {
+        transform: rotate(45deg) translate(0.3rem, 0.8rem);
+    }
+
+    .change .line-2 {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .change .line-3 {
+        transform: rotate(-45deg) translate(0.3rem, -0.8rem);
+    }
+
+    .hamburger-menu span {
+        position: absolute;
+        left: 5rem;
+        width: 10rem;
+        height: 4rem;
+        background-color: #e2b646;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-family: "Baloo Da 2", serif;
+        font-size: 1.6rem;
+        letter-spacing: 0.1rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s;
+    }
+
+    .change .hamburger-menu:hover span {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .hamburger-menu span::before {
+        content: "";
+        position: absolute;
+        border-left: 1rem solid transparent;
+        border-right: 1rem solid #e2b646;
+        border-bottom: 1rem solid transparent;
+        border-top: 1rem solid transparent;
+        top: 50%;
+        left: -2rem;
+        transform: translateY(-50%);
+    }
+
+    .header {
+        width: 100%;
+        height: 60vh;
+        position: relative;
+        perspective: 100rem;
+        overflow: hidden;
+    }
+
+    .img-wrapper {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        overflow: hidden;
+    }
+
+    .img-wrapper img {
+        width: 100%;
+        height: 60vh;
+        object-fit: cover;
+        opacity: 0.5;
+        animation: scale 25s;
+    }
+
+    @keyframes scale {
+        0% {
+            transform: scale(1.3);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .banner {
+        position: absolute;
+        top: 10%;
+        left: 25%;
+        width: 50%;
+        text-align: center;
+    }
+
+    .banner h1 {
+        font-family: "Baloo Da 2", serif;
+        font-size: 3.8rem;
+        font-weight: 300;
+        color: #fff;
+        width: 100%;
+        margin-bottom: 14px;
+        letter-spacing: 0.2rem;
+        text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        animation: moveBanner 1s 0.5s forwards;
+    }
+
+    .banner p {
+        font-family: "Josefin Slab", serif;
+        font-size: 2.3rem;
+        color: #fff;
+        width: 100%;
+        letter-spacing: 0.1rem;
+        margin-bottom: 3rem;
+        text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        animation: moveBanner 1s 0.7s forwards;
+    }
+
+    @keyframes moveBanner {
+        0% {
+            transform: translateY(40rem) rotateY(-20deg);
+        }
+
+        100% {
+            transform: translateY(0) rotateY(0);
+            opacity: 1;
+        }
+    }
+
+    .sidebar {
+        padding: 14px;
+        width: 25rem;
+        height: 60vh;
+        position: fixed;
+        top: 0;
+        right: -40rem;
+        background-color: #fff;
+        transition: right 0.5s;
+        z-index: 100;
+    }
+
+    .change .sidebar {
+        right: 0;
+    }
+
+    .menu {
+        position: absolute;
+        top: 12%;
+        left: 17%;
+    }
+
+    .menu-item {
+        list-style-type: disc;
+        margin-top: 17px;
+    }
+
+    .menu-link {
+        font-family: "Baloo Da 2", serif;
+        font-size: 32px;
+        color: #555;
+        position: relative;
+        text-decoration: none;
+    }
+
+    .menu-link::before {
+        content: attr(data-content);
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #c29525;
+        width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .menu-link:hover::before {
+        width: 100%;
+    }
+
+    .sub-menu {
+        display: none;
+        font-family: "Baloo Da 2", serif;
+        font-size: 24px;
+        margin-left: 10px;
+        text-decoration: none;
+    }
+
+    #sub:hover .sub-menu {
+        display: block;
+    }
+
+    .sub-menu-item {
+        list-style-type: disc;
+        margin: 7px;
+
+    }
+
+    .sub-menu-link {
+        color: #555;
+        position: relative;
+        display: block;
+        text-decoration: none;
+    }
+
+    .sub-menu-link::before {
+        content: attr(data-content);
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #c29525;
+        width: 0;
+
+        overflow: hidden;
+        white-space: nowrap;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .sub-menu-link:hover::before {
+        width: 100%;
+    }
+
+    /* .social-media {
+            position: absolute;
+            bottom: 3rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .social-media i {
+            font-size: 2.2rem;
+            margin: 3rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #777;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .social-media i:hover {
+            background-color: #c29525;
+        } */
+
+    .content {
+        padding: 24px;
+        display: flex;
+    }
+
+    @media (max-width:890px) {
+        .content {
+            display: block;
+        }
+
+        .content-text {
+            width: 100% !important;
+        }
+
+        .content-api {
+            width: 50% !important;
+            margin: auto;
+        }
+    }
+
+    .content-text {
+        font-size: larger;
+        width: 70%;
+        opacity: 0;
+        transform: translateX(-100%);
+        animation: slideInFromLeft 2s forwards;
+        font-family: inria serif;
+        list-style: none;
+    }
+
+    @keyframes slideInFromLeft {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .content-text h1 {
+        margin: 10px;
+    }
+
+    .content-text p {
+        margin: 0 10px 20px 10px;
+    }
+
+    .content-text li {
+        margin: 0 10px 20px 10px;
+    }
+
+    .content-api h1 {
+        font-weight: bold;
+        font-size: 30px;
+        font-family: inria serif;
+    }
+
+    .content-api {
+        padding: 7px;
+        width: 30%;
+        text-align: center;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 250px;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        opacity: 0;
+        transform: translateX(100%);
+        animation: slideInFromLeft 2s forwards;
+    }
+
+    @keyframes slideInFromLeft {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .aqi-value {
+        font-size: 20px;
+        margin: 7px 0;
+    }
+
+    .aqi-description {
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .input-group {
+        width: 100%;
+    }
+
+    .input-group input {
+        margin-top: 5px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 50%;
+    }
+
+    .input-group button {
+        margin: 10px;
+        padding: 10px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .input-group button:hover {
+        background-color: #0056b3;
+    }
+
+    footer {
+        margin-top: 50px;
+        background-color: #000;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    footer .social-icons {
+        margin: 20px 0;
+    }
+
+    footer .social-icons a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        margin: 0 10px;
+        line-height: 40px;
+        border-radius: 50%;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    footer .social-icons a:hover {
+        background-color: #555;
+    }
+
+    footer .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+    }
+
+    footer .footer-links li {
+        display: inline;
+        margin: 0 15px;
+    }
+
+    footer .footer-links a {
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    footer .footer-links a:hover {
+        color: #ccc;
+    }
+
+    footer .footer-bottom {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="hamburger-menu">
+            <div class="line line-1"></div>
+            <div class="line line-2"></div>
+            <div class="line line-3"></div>
+            <span>Close</span>
+        </div>
+        <header class="header">
+            <div class="img-wrapper">
+                <img src="Images/emissions.jpg" />
+            </div>
+            <div class="banner">
+                <h1>Carbon Emissions</h1>
+                <p>"
+                    Enter your energy consumption to see carbon emissions and understand your environmental impact."
+                </p>
+            </div>
+        </header>
+
+        <section class="sidebar">
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="index.html" class="menu-link" data-content="Home">Home</a>
+                </li>
+                <li class="menu-item" id="sub">
+                    <a href="#" class="menu-link" data-content="Resources">Resources</a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item">
+                            <a href="UV.html" class="sub-menu-link" data-content="UV Index">UV Index</a>
+                        </li>
+                        <li class="sub-menu-item">
+                            <a href="AQI.html" class="sub-menu-link" data-content="Air Quality Index">Air Quality
+                                Index</a>
+                        </li>
+                        <li class="sub-menu-item">
+                            <a href="temperature.html" class="sub-menu-link" data-content="Temperature">Temperature</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-content="About Us">About Us</a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link" data-content="Contact">Contact</a>
+                </li>
+            </ul>
+            <!-- <div class="social-media">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div> -->
+
+        </section>
+
+        <section>
+            <div class="content">
+                <div class="content-text">
+                    <h1>What are Carbon Emissions?</h1>
+                    <p>Carbon emissions refer to the release of carbon dioxide (CO₂) and other carbon compounds into
+                        the atmosphere, primarily through human activities. These emissions are a major contributor
+                        to climate change and global warming. The term "carbon emissions" is often used
+                        interchangeably with "greenhouse gas emissions," although it specifically focuses on
+                        carbon-based gases.
+                    </p>
+                    <h1> Sources of Carbon Emissions</h1>
+                    <p>Carbon emissions originate from various sources, both natural and anthropogenic
+                        (human-caused): <br><br>
+
+
+                        <b>Fossil Fuel Combustion:</b> Burning coal, oil, and natural gas for electricity, heat, and
+                        transportation is the largest source of carbon emissions. This includes emissions from power
+                        plants, vehicles, and industrial processes.<br>
+                        <b>Deforestation:</b>Cutting down trees reduces the planet's capacity to absorb CO₂, leading
+                        to higher levels of carbon in the atmosphere. <br>
+                        <b>Agriculture:</b> Agricultural practices, including livestock farming and rice
+                        cultivation, produce significant amounts of methane (CH₄), a potent greenhouse gas. <br>
+                        <b>Industrial Processes:</b> Manufacturing cement, steel, and chemicals releases substantial
+                        amounts of CO₂ and other greenhouse gases. <br>
+                        <b>Natural Sources:</b> While natural processes like respiration, volcanic eruptions, and
+                        wildfires also emit CO₂, these emissions are typically balanced by natural carbon sinks,
+                        such as forests and oceans. <br>
+                    </p>
+
+                    <h1>Low Emission Levels</h1>
+                    <p> <span style="font-weight: bolder;">Definition</span>: Low carbon emission levels per person
+                        are typically considered to be below 2 metric tons of CO₂ per year.</p>
+                    <h1>Medium Emission Levels</h1>
+                    <p><span style="font-weight: bolder;">Definition</span>: Medium carbon emission levels per
+                        person range from 2 to 8 metric tons of CO₂ per year.</p>
+                    <h1>High Emission Levels</h1>
+                    <p><span style="font-weight: bolder;">Definition</span>:High carbon emission levels per person
+                        are considered to be above 8 metric tons of CO₂ per year.</p>
+                </div>
+                <div class="content-api">
+                    <div class="input-group">
+                        <h1>Enter Energy consumption (kWh):</h1>
+                        <input id="energyInput" placeholder="Enter energy in kWh" />
+                        <button id="fetchDataButton">Enter</button>
+                        <div id="result" class="aqi-description" style="display: none"></div>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+    </section>
+    <!--MAIN CONTENT-->
+
+
+    <!--FOOTER-->
+
+
+    <footer>
+
+
+        <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Resources</a></li>
+            <li><a href="#">Contact Us</a></li>
+
+        </ul>
+
+        <div class="footer-bottom">
+            &copy; 2024 Your Company. All rights reserved.
+        </div>
+    </footer>
+    <script>
+        function showSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.style.display = 'flex';
+        }
+
+        function hideSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.style.display = 'none';
+        }
+
+        document
+            .getElementById("fetchDataButton")
+            .addEventListener("click", fetchData);
+
+        async function fetchData() {
+            const apiKey = "SJNTV730ES43KVH9KPT4R3YP0EMM";
+            const endpoint = "https://api.climatiq.io/data/v1/estimate";
+            const resultDiv = document.getElementById("result");
+            const energyInput = document.getElementById("energyInput").value;
+
+            if (!energyInput) {
+                alert("Please enter the energy consumption.");
+                return;
+            }
+
+            const data = {
+                emission_factor: {
+                    activity_id: "electricity-supply_grid-source_residual_mix",
+                    data_version: "^6",
+                },
+                parameters: {
+                    energy: parseFloat(energyInput),
+                    energy_unit: "kWh",
+                },
+            };
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${apiKey}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`kindly enter the value in numerals ${response.status}`);
+                }
+
+                const resultData = await response.json();
+                displayData(resultData);
+            } catch (error) {
+                resultDiv.style.display = "block";
+                resultDiv.innerHTML = `<p>Error : ${error.message}</p>`;
+            }
+        }
+
+        function displayData(data) {
+            const resultDiv = document.getElementById("result");
+            resultDiv.style.display = "block";
+            resultDiv.innerHTML = "<h2 >Emission Estimate:</h2>";
+            resultDiv.innerHTML += `<p>Emission: ${data.co2e} kg CO2e</p>`;
+        }
+        document.querySelector(".hamburger-menu").addEventListener("click", () => {
+            document.querySelector(".container").classList.toggle("change");
+        });
+    </script>
+</body>
+
+</html>
